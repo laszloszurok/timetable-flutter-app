@@ -473,7 +473,7 @@ class _LessonListScreenState extends State<LessonListScreen>
         /* when the user finishes a scroll in the listview make the floating action button visible after a delay
          * useful in case the fab would cover the delete button of an item */
         if (t is ScrollEndNotification) {
-          Timer(const Duration(milliseconds: 400), () {
+          Timer(const Duration(milliseconds: 500), () {
             setState(() {
               _fabIsVisible = true;
             });
