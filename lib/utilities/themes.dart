@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timetable_app/utilities/settings_change_notifier.dart';
 
-class ActiveTheme {
+class ThemeProvider {
   /* Colors used in dark theme */
   static final Color _mainBackgroundColorDark = Color(0xFF1e2227);
   static final Color _secondaryBackgroundColorDark = Color(0xFF282c34);
@@ -22,103 +22,93 @@ class ActiveTheme {
   static final Color _cardSubtitleColorLight = Colors.grey;
   static final Color _buttonColorLight = Colors.blue;
 
+  /* I could not change the color of some elements through ThemeData,
+   * so I'm setting them with the help of static getters and a static
+   * boolean variable in SettingsProvider to determine if dark or
+   * light theme is active and set the colors accordingly. */
   static Color _listTileTitleColor;
   static Color _drawerHeaderDecorationColor;
   static Color _drawerTitleColor;
 
   static Color get listTileTitleColor {
-    _listTileTitleColor = SettingsChangeNotifier.darkTheme
+    _listTileTitleColor = SettingsProvider.isDarkTheme
         ? _mainForeGroundColorDark
         : _mainForegroundColorLight;
     return _listTileTitleColor;
   }
 
   static Color get drawerHeaderDecorationColor {
-    _drawerHeaderDecorationColor = SettingsChangeNotifier.darkTheme
+    _drawerHeaderDecorationColor = SettingsProvider.isDarkTheme
         ? _secondaryBackgroundColorDark
         : _secondaryBackgroundColorLight;
     return _drawerHeaderDecorationColor;
   }
 
   static Color get drawerTitleColor {
-    _drawerTitleColor = SettingsChangeNotifier.darkTheme
+    _drawerTitleColor = SettingsProvider.isDarkTheme
         ? _mainForeGroundColorDark
         : _secondaryForegroundColorLight;
     return _drawerTitleColor;
   }
 
-  static ThemeData darkTheme() {
-    TextTheme _textThemeDark(TextTheme base) {
-      return base.copyWith(
-        caption: base.caption.copyWith(
-          color: _cardSubtitleColorDark,
+  static ThemeData light = ThemeData.light().copyWith(
+    textTheme: ThemeData.light().copyWith().textTheme,
+    scaffoldBackgroundColor: _mainBackgroundColorLight,
+    appBarTheme: AppBarTheme(
+      textTheme: TextTheme(
+        headline6: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
         ),
-        bodyText1: TextStyle(
-          color: _mainForeGroundColorDark,
-        ),
-      );
-    }
+      ),
+    ),
+    buttonTheme: ButtonThemeData(
+      buttonColor: _buttonColorLight,
+    ),
+  );
 
-    final ThemeData base = ThemeData.dark();
-    return base.copyWith(
-      canvasColor: _mainBackgroundColorDark, // background of the drawer
-      scaffoldBackgroundColor: _mainBackgroundColorDark,
-      textTheme: _textThemeDark(base.textTheme),
-      appBarTheme: AppBarTheme(
-        color: _secondaryBackgroundColorDark,
-        iconTheme: IconThemeData(
-          color: _mainForeGroundColorDark,
-        ),
-        textTheme: TextTheme(
-          headline6: TextStyle(
-            color: _mainForeGroundColorDark,
-            fontSize: 24,
-          ),
-        ),
+  static ThemeData dark = ThemeData.dark().copyWith(
+    textTheme: TextTheme(
+      caption: TextStyle(
+        color: _cardSubtitleColorDark,
       ),
-      tabBarTheme: TabBarTheme(
-        labelColor: _mainForeGroundColorDark,
+      bodyText1: TextStyle(
+        color: _mainForeGroundColorDark,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: _floatingActionButtonBackgroundColorDark,
-        foregroundColor: _floatingActionButtonForegroundColorDark,
-      ),
-      accentColor: _accentColorDark,
-      toggleableActiveColor: _toggleButtonActiveColorDark,
-      indicatorColor: _activeTabIndicatorColorDark,
-      buttonTheme: ButtonThemeData(
-        buttonColor: _buttonColorDark,
-      ),
-      cardTheme: CardTheme(
-        color: _secondaryBackgroundColorDark,
-      ),
+    ),
+    canvasColor: _mainBackgroundColorDark, // background of the drawer
+    scaffoldBackgroundColor: _mainBackgroundColorDark,
+    appBarTheme: AppBarTheme(
+      color: _secondaryBackgroundColorDark,
       iconTheme: IconThemeData(
         color: _mainForeGroundColorDark,
       ),
-    );
-  }
-
-  static ThemeData lightTheme() {
-    TextTheme _textThemeLight(TextTheme base) {
-      return base.copyWith(
-        caption: base.caption.copyWith(
-          color: _cardSubtitleColorLight,
-        ),
-      );
-    }
-
-    final ThemeData base = ThemeData.light();
-    return base.copyWith(
-      textTheme: _textThemeLight(base.textTheme),
-      scaffoldBackgroundColor: _mainBackgroundColorLight,
-      appBarTheme: AppBarTheme(
-        textTheme: TextTheme(
-          headline6: TextStyle(fontSize: 24),
+      textTheme: TextTheme(
+        headline6: TextStyle(
+          color: _mainForeGroundColorDark,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
         ),
       ),
-      buttonTheme: ButtonThemeData(
-        buttonColor: _buttonColorLight,
-      ),
-    );
-  }
+    ),
+    tabBarTheme: TabBarTheme(
+      labelColor: _mainForeGroundColorDark,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: _floatingActionButtonBackgroundColorDark,
+      foregroundColor: _floatingActionButtonForegroundColorDark,
+    ),
+    accentColor: _accentColorDark,
+    toggleableActiveColor: _toggleButtonActiveColorDark,
+    indicatorColor: _activeTabIndicatorColorDark,
+    buttonTheme: ButtonThemeData(
+      buttonColor: _buttonColorDark,
+    ),
+    cardTheme: CardTheme(
+      color: _secondaryBackgroundColorDark,
+    ),
+    iconTheme: IconThemeData(
+      color: _mainForeGroundColorDark,
+    ),
+  );
 }

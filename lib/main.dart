@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timetable_app/utilities/settings_change_notifier.dart';
 import 'package:provider/provider.dart';
-
 import 'screens/lesson_list_screen.dart';
+import 'package:timetable_app/utilities/constants.dart' as Constants;
 
-void main(){
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  runApp(ChangeNotifierProvider(
+      create: (BuildContext context) => SettingsProvider(
+            isDarkTheme: sharedPreferences
+                    .getBool(Constants.SHARED_PREFS_DARK_THEME_KEY) ??
+                false,
+            isFullWeek: sharedPreferences
+                    .getBool(Constants.SHARED_PREFS_FULL_WEEK_KEY) ??
+                true,
+          ),
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => SettingsChangeNotifier(),
-      child: Consumer<SettingsChangeNotifier>(
-        builder: (context, SettingsChangeNotifier settingsChangeNotifier, child){
-          return MaterialApp(
-            theme: SettingsChangeNotifier.darkTheme ? dark : light,
-            home: LessonListScreen(),
-          );
-        },
-      ),
+    return Consumer<SettingsProvider>(
+      builder: (context, SettingsProvider settingsProvider, child) {
+        return MaterialApp(
+          theme: settingsProvider.getSelectedTheme,
+          home: LessonListScreen(),
+        );
+      },
     );
   }
 }

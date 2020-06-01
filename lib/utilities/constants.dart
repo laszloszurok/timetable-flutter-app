@@ -70,8 +70,8 @@ const String CREATE_TABLE = "CREATE TABLE $TABLE_NAME ("
 ");";
 const String DATABASE_PATH = "$TABLE_NAME.db";
 
-const String SHARED_PREFS_DARK_THEME_KEY = "dark_theme";
-const String SHARED_PREFS_FULL_WEEK_KEY = "full_week";
+const String SHARED_PREFS_DARK_THEME_KEY = "isDarkTheme";
+const String SHARED_PREFS_FULL_WEEK_KEY = "isFullWeek";
 
 const int NUM_OF_TABS_FIVE_DAY_WEEK = 5;
 const int NUM_OF_TABS_FULL_WEEK = 7;

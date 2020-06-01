@@ -18,19 +18,19 @@ class SettingsScreen extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             Card(
-              child: Consumer<SettingsChangeNotifier>(
-                builder: (context, settingsChangeNotifier, child) =>
+              child: Consumer<SettingsProvider>(
+                builder: (context, SettingsProvider settingsProvider, child) =>
                     SwitchListTile(
                   contentPadding: EdgeInsets.all(15),
                   title: Text(
                     Constants.DARK_THEME_LABEL,
                     style: TextStyle(
-                      color: ActiveTheme.listTileTitleColor,
+                      color: ThemeProvider.listTileTitleColor,
                     ),
                   ),
-                  value: SettingsChangeNotifier.darkTheme,
+                  value: SettingsProvider.isDarkTheme,
                   onChanged: (value) {
-                    settingsChangeNotifier.toggleTheme();
+                    settingsProvider.toggleTheme();
                   },
                 ),
               ),
@@ -39,19 +39,19 @@ class SettingsScreen extends StatelessWidget {
               height: 10,
             ),
             Card(
-              child: Consumer<SettingsChangeNotifier>(
-                builder: (context, settingsChangeNotifier, child) =>
+              child: Consumer<SettingsProvider>(
+                builder: (context, SettingsProvider settingsProvider, child) =>
                     SwitchListTile(
                   contentPadding: EdgeInsets.all(15),
                   title: Text(
                     Constants.FULL_WEEK_LABEL,
                     style: TextStyle(
-                      color: ActiveTheme.listTileTitleColor,
+                      color: ThemeProvider.listTileTitleColor,
                     ),
                   ),
-                  value: SettingsChangeNotifier.fullWeek,
+                  value: settingsProvider.isFullWeek,
                   onChanged: (value) {
-                    settingsChangeNotifier.toggleFullWeek();
+                    settingsProvider.toggleFullWeek();
                   },
                 ),
               ),

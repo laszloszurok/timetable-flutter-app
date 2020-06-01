@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:timetable_app/models/lesson.dart';
 import 'package:timetable_app/screens/settings_screen.dart';
 import 'package:timetable_app/utilities/db_helper.dart';
@@ -59,16 +60,16 @@ class _LessonListScreenState extends State<LessonListScreen>
   void initState() {
     super.initState();
 
+    /* Hide add button while scrolling a list */
+    _fabIsVisible = true;
+    _hideButtonController = ScrollController();
+    _hideButtonController.addListener(_hideButtonWhileScrolling);
+
     /* _tabController will be overwritten in openDay(), but have to be initalized 
      * here, becouse we retrive the number of tabs to show in an async function,
      * so we have to make sure _tabController is not null. */
     _tabController =
         TabController(length: Constants.NUM_OF_TABS_FIVE_DAY_WEEK, vsync: this);
-
-    /* Hide add button while scrolling a list */
-    _fabIsVisible = true;
-    _hideButtonController = ScrollController();
-    _hideButtonController.addListener(_hideButtonWhileScrolling);
 
     /* Getting the number of tabs to show, initalizing _tabController
      * and animating to the rigth tab. */
@@ -80,7 +81,7 @@ class _LessonListScreenState extends State<LessonListScreen>
   }
 
   void _handleTabIndex() {
-    setState(() {});
+    //setState(() {});
   }
 
   void _hideButtonWhileScrolling() {
@@ -123,6 +124,7 @@ class _LessonListScreenState extends State<LessonListScreen>
    * right tab accordingly.  */
   void openDay(int numOfTabs) {
     _tabController = TabController(length: numOfTabs, vsync: this);
+    _tabController.addListener(_handleTabIndex);
 
     DateTime now = DateTime.now();
     int tabIndex = now.weekday - 1;
@@ -162,6 +164,8 @@ class _LessonListScreenState extends State<LessonListScreen>
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider =
+              Provider.of<SettingsProvider>(context, listen: false);
     // if the lists are empty we fetch lessons from the db
     if (_mondayList == null) {
       _mondayList = List();
@@ -183,7 +187,7 @@ class _LessonListScreenState extends State<LessonListScreen>
       _fridayList = List();
       updateListView(Constants.FRIDAY_ID);
     }
-    if (SettingsChangeNotifier.fullWeek) {
+    if (settingsProvider.isFullWeek) {
       if (_saturdayList == null) {
         _saturdayList = List();
         updateListView(Constants.SATURDAY_ID);
@@ -193,11 +197,11 @@ class _LessonListScreenState extends State<LessonListScreen>
         updateListView(Constants.SUNDAY_ID);
       }
     }
-    if (SettingsChangeNotifier.fullWeek &&
+    if (settingsProvider.isFullWeek &&
         _tabController.length == Constants.NUM_OF_TABS_FIVE_DAY_WEEK) {
       _tabController.dispose();
       openDay(Constants.NUM_OF_TABS_FULL_WEEK);
-    } else if (!SettingsChangeNotifier.fullWeek &&
+    } else if (!settingsProvider.isFullWeek &&
         _tabController.length == Constants.NUM_OF_TABS_FULL_WEEK) {
       _tabController.dispose();
       openDay(Constants.NUM_OF_TABS_FIVE_DAY_WEEK);
@@ -209,7 +213,7 @@ class _LessonListScreenState extends State<LessonListScreen>
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
-          tabs: SettingsChangeNotifier.fullWeek
+          tabs: settingsProvider.isFullWeek
               ? <Widget>[
                   Tab(text: Constants.MONDAY_TAB),
                   Tab(text: Constants.TUESDAY_TAB),
@@ -230,7 +234,7 @@ class _LessonListScreenState extends State<LessonListScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: SettingsChangeNotifier.fullWeek
+        children: settingsProvider.isFullWeek
             ? [
                 populateListView(_mondayList, mondayListLength),
                 populateListView(_tuesdayList, tuesdayListLength),
@@ -250,7 +254,6 @@ class _LessonListScreenState extends State<LessonListScreen>
       ),
       drawer: Drawer(
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
@@ -258,11 +261,11 @@ class _LessonListScreenState extends State<LessonListScreen>
                 Constants.MAIN_TITLE,
                 style: TextStyle(
                   fontSize: 24,
-                  color: ActiveTheme.drawerTitleColor,
+                  color: ThemeProvider.drawerTitleColor,
                 ),
               ),
               decoration: BoxDecoration(
-                color: ActiveTheme.drawerHeaderDecorationColor,
+                color: ThemeProvider.drawerHeaderDecorationColor,
               ),
             ),
             ListTile(
@@ -296,9 +299,14 @@ class _LessonListScreenState extends State<LessonListScreen>
       floatingActionButton: Visibility(
         visible: _fabIsVisible,
         child: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
             isNewEntry = true;
-            if (SettingsChangeNotifier.fullWeek) {
+            /* Need a delay here, becouse if the user swipes to change tab and then immediately
+             * taps the floating action button, the new entry will be added to the perviously 
+             * active tab (becouse the animation of the tabcontroller is not over yet) 
+             * TODO: hide the FAB while switching tabs maybe? */
+            await Future.delayed(const Duration(milliseconds: 500));
+            if (settingsProvider.isFullWeek) {
               switch (_tabController.index) {
                 case 0:
                   navigationToDetailsView(
@@ -344,7 +352,7 @@ class _LessonListScreenState extends State<LessonListScreen>
                   break;
                 default:
                   debugPrint(
-                      "Error while specifying _tabController.index (FAB -> onTap -> switch, fullWeek = true)");
+                      "Error while specifying _tabController.index (FAB -> onPressed -> switch, fullWeek = true)");
               }
             } else {
               switch (_tabController.index) {
@@ -380,7 +388,7 @@ class _LessonListScreenState extends State<LessonListScreen>
                   break;
                 default:
                   debugPrint(
-                      "Error while specifying _tabController.index (FAB -> onTap -> switch)");
+                      "Error while specifying _tabController.index (FAB -> onPressed -> switch)");
               }
             }
           },
@@ -526,7 +534,7 @@ class _LessonListScreenState extends State<LessonListScreen>
                       lesson.title,
                       style: TextStyle(
                         fontSize: 25,
-                        color: ActiveTheme.listTileTitleColor,
+                        color: ThemeProvider.listTileTitleColor,
                       ),
                     ),
                     subtitle: subTitleTextField,
@@ -616,7 +624,7 @@ class _LessonListScreenState extends State<LessonListScreen>
     _tabController.removeListener(_handleTabIndex);
     _tabController.dispose();
 
-    _hideButtonController.removeListener(() {});
+    _hideButtonController.removeListener(_hideButtonWhileScrolling);
     _hideButtonController.dispose();
 
     super.dispose();

@@ -3,52 +3,38 @@ import 'package:timetable_app/utilities/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timetable_app/utilities/constants.dart' as Constants;
 
-/* lightTheme() and darkTheme() functions are defined in /utilities/theme.dart 
- * The objects defined below are used in main.dart to set the corret theme. */
-ThemeData light = ActiveTheme.lightTheme();
-ThemeData dark = ActiveTheme.darkTheme();
+class SettingsProvider extends ChangeNotifier {
+  ThemeData _selectedTheme;
+  bool _isFullWeek;
+  static bool _isDarkTheme;
 
-class SettingsChangeNotifier extends ChangeNotifier {
-  SharedPreferences _prefs;
-
-  static bool _darkTheme;
-  static bool _fullWeek;
-
-  SettingsChangeNotifier() {
-    _darkTheme = true;
-    _fullWeek = true;
-    _loadThemeFromPrefs();
+  SettingsProvider({bool isDarkTheme, bool isFullWeek}) {
+    _selectedTheme = isDarkTheme ? ThemeProvider.dark : ThemeProvider.light;
+    _isFullWeek = isFullWeek;
+    _isDarkTheme = isDarkTheme;
   }
 
-  static bool get darkTheme => _darkTheme;
-  static bool get fullWeek => _fullWeek;
+  ThemeData get getSelectedTheme => _selectedTheme;
+  bool get isFullWeek => _isFullWeek;
+  static bool get isDarkTheme => _isDarkTheme;
 
-  toggleTheme() {
-    _darkTheme = !_darkTheme;
-    notifyListeners();
-    _saveThemeToPrefs();
-  }
-
-  toggleFullWeek() {
-    _fullWeek = !_fullWeek;
-    notifyListeners();
-    _saveThemeToPrefs();
-  }
-
-  _initPrefs() async {
-    if (_prefs == null) _prefs = await SharedPreferences.getInstance();
-  }
-
-  _loadThemeFromPrefs() async {
-    await _initPrefs();
-    _darkTheme = _prefs.getBool(Constants.SHARED_PREFS_DARK_THEME_KEY) ?? true;
-    _fullWeek = _prefs.getBool(Constants.SHARED_PREFS_FULL_WEEK_KEY) ?? true;
+  Future<void> toggleFullWeek() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    _isFullWeek = !_isFullWeek;
+    sharedPreferences.setBool(Constants.SHARED_PREFS_FULL_WEEK_KEY, _isFullWeek);
     notifyListeners();
   }
 
-  _saveThemeToPrefs() async {
-    await _initPrefs();
-    _prefs.setBool(Constants.SHARED_PREFS_DARK_THEME_KEY, _darkTheme);
-    _prefs.setBool(Constants.SHARED_PREFS_FULL_WEEK_KEY, _fullWeek);
+  Future<void> toggleTheme() async {
+    _isDarkTheme = !_isDarkTheme;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (_selectedTheme == ThemeProvider.dark) {
+      _selectedTheme = ThemeProvider.light;
+      sharedPreferences.setBool(Constants.SHARED_PREFS_DARK_THEME_KEY, false);
+    } else {
+      sharedPreferences.setBool(Constants.SHARED_PREFS_DARK_THEME_KEY, true);
+      _selectedTheme = ThemeProvider.dark;
+    }
+    notifyListeners();
   }
 }
