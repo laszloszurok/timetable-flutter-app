@@ -19,7 +19,6 @@ class ThemeProvider {
   static final Color _secondaryBackgroundColorLight = Colors.blue;
   static final Color _mainForegroundColorLight = Colors.black;
   static final Color _secondaryForegroundColorLight = Colors.white;
-  static final Color _cardSubtitleColorLight = Colors.grey;
   static final Color _buttonColorLight = Colors.blue;
 
   /* I could not change the color of some elements through ThemeData,
