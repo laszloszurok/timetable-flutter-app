@@ -1,3 +1,3 @@
 # timetable_app
 
-A timetable/note-taking application (Hungarian language). Built with Flutter.
+A timetable/note-taking application (supported languages: english, hungarian). Built with Flutter.
