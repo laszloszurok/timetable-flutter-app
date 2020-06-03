@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:timetable_app/models/lesson.dart';
 import 'package:timetable_app/screens/settings_screen.dart';
 import 'package:timetable_app/utilities/db_helper.dart';
+import 'package:timetable_app/utilities/localization.dart';
 import 'package:timetable_app/utilities/settings_change_notifier.dart';
 import 'package:timetable_app/utilities/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/lesson.dart';
+import 'file_operation_screen.dart';
 import 'lesson_manager_screen.dart';
 import 'package:timetable_app/utilities/constants.dart' as Constants;
 
@@ -165,7 +167,7 @@ class _LessonListScreenState extends State<LessonListScreen>
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider =
-              Provider.of<SettingsProvider>(context, listen: false);
+        Provider.of<SettingsProvider>(context, listen: false);
     // if the lists are empty we fetch lessons from the db
     if (_mondayList == null) {
       _mondayList = List();
@@ -209,26 +211,26 @@ class _LessonListScreenState extends State<LessonListScreen>
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(
-        title: Text(Constants.MAIN_TITLE),
+        title: Text(LocalizedText.of(context).mainTitle),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
           tabs: settingsProvider.isFullWeek
               ? <Widget>[
-                  Tab(text: Constants.MONDAY_TAB),
-                  Tab(text: Constants.TUESDAY_TAB),
-                  Tab(text: Constants.WEDNESDAY_TAB),
-                  Tab(text: Constants.THURSDAY_TAB),
-                  Tab(text: Constants.FRIDAY_TAB),
-                  Tab(text: Constants.SATURDAY_TAB),
-                  Tab(text: Constants.SUNDAY_TAB),
+                  Tab(text: LocalizedText.of(context).mondayTab),
+                  Tab(text: LocalizedText.of(context).tuesdayTab),
+                  Tab(text: LocalizedText.of(context).wednesdayTab),
+                  Tab(text: LocalizedText.of(context).thursdayTab),
+                  Tab(text: LocalizedText.of(context).fridayTab),
+                  Tab(text: LocalizedText.of(context).saturdayTab),
+                  Tab(text: LocalizedText.of(context).sundayTab),
                 ]
               : <Widget>[
-                  Tab(text: Constants.MONDAY_TAB),
-                  Tab(text: Constants.TUESDAY_TAB),
-                  Tab(text: Constants.WEDNESDAY_TAB),
-                  Tab(text: Constants.THURSDAY_TAB),
-                  Tab(text: Constants.FRIDAY_TAB),
+                  Tab(text: LocalizedText.of(context).mondayTab),
+                  Tab(text: LocalizedText.of(context).tuesdayTab),
+                  Tab(text: LocalizedText.of(context).wednesdayTab),
+                  Tab(text: LocalizedText.of(context).thursdayTab),
+                  Tab(text: LocalizedText.of(context).fridayTab),
                 ],
         ),
       ),
@@ -258,7 +260,7 @@ class _LessonListScreenState extends State<LessonListScreen>
           children: <Widget>[
             DrawerHeader(
               child: Text(
-                Constants.MAIN_TITLE,
+                LocalizedText.of(context).mainTitle,
                 style: TextStyle(
                   fontSize: 24,
                   color: ThemeProvider.drawerTitleColor,
@@ -269,7 +271,7 @@ class _LessonListScreenState extends State<LessonListScreen>
               ),
             ),
             ListTile(
-              title: Text(Constants.SETTINGS_LABEL),
+              title: Text(LocalizedText.of(context).settingsLabel),
               onTap: () {
                 // Navigating to the settings screen
                 // Navigator.pop(context); // close the drawer
@@ -282,14 +284,31 @@ class _LessonListScreenState extends State<LessonListScreen>
               },
             ),
             ListTile(
-              title: Text(Constants.APP_INFO_LABEL),
+              title: Text(LocalizedText.of(context).fileOperationsLabel),
+              onTap: () async {
+                // Navigating to the settings screen
+                // Navigator.pop(context); // close the drawer
+                bool didImport = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FileOperationScreen(),
+                      ),
+                    ) ??
+                    true;
+                if (didImport) {
+                  updateListView("all");
+                }
+              },
+            ),
+            ListTile(
+              title: Text(LocalizedText.of(context).appInfoLabel),
               onTap: () {
                 // Show app infos
                 showAboutDialog(
                   context: context,
-                  applicationName: Constants.MAIN_TITLE,
+                  applicationName: LocalizedText.of(context).mainTitle,
                   applicationVersion: Constants.VERSION_NUMBER,
-                  applicationLegalese: Constants.APP_INFO_CONTENT,
+                  applicationLegalese: LocalizedText.of(context).appInfoContent,
                 );
               },
             ),
@@ -311,43 +330,43 @@ class _LessonListScreenState extends State<LessonListScreen>
                 case 0:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.MONDAY_ID),
-                      Constants.NEW_LESSON_MONDAY,
+                      LocalizedText.of(context).newLessonMonday,
                       isNewEntry);
                   break;
                 case 1:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.TUESDAY_ID),
-                      Constants.NEW_LESSON_TUESDAY,
+                      LocalizedText.of(context).newLessonTuesday,
                       isNewEntry);
                   break;
                 case 2:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.WEDNESDAY_ID),
-                      Constants.NEW_LESSON_WEDNESDAY,
+                      LocalizedText.of(context).newLessonWednesday,
                       isNewEntry);
                   break;
                 case 3:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.THURSDAY_ID),
-                      Constants.NEW_LESSON_THURSDAY,
+                      LocalizedText.of(context).newLessonThursday,
                       isNewEntry);
                   break;
                 case 4:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.FRIDAY_ID),
-                      Constants.NEW_LESSON_FRIDAY,
+                      LocalizedText.of(context).newLessonFriday,
                       isNewEntry);
                   break;
                 case 5:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.SATURDAY_ID),
-                      Constants.NEW_LESSON_SATURDAY,
+                      LocalizedText.of(context).newLessonSaturday,
                       isNewEntry);
                   break;
                 case 6:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.SUNDAY_ID),
-                      Constants.NEW_LESSON_SUNDAY,
+                      LocalizedText.of(context).newLessonSunday,
                       isNewEntry);
                   break;
                 default:
@@ -359,31 +378,31 @@ class _LessonListScreenState extends State<LessonListScreen>
                 case 0:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.MONDAY_ID),
-                      Constants.NEW_LESSON_MONDAY,
+                      LocalizedText.of(context).newLessonMonday,
                       isNewEntry);
                   break;
                 case 1:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.TUESDAY_ID),
-                      Constants.NEW_LESSON_TUESDAY,
+                      LocalizedText.of(context).newLessonTuesday,
                       isNewEntry);
                   break;
                 case 2:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.WEDNESDAY_ID),
-                      Constants.NEW_LESSON_WEDNESDAY,
+                      LocalizedText.of(context).newLessonWednesday,
                       isNewEntry);
                   break;
                 case 3:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.THURSDAY_ID),
-                      Constants.NEW_LESSON_THURSDAY,
+                      LocalizedText.of(context).newLessonFriday,
                       isNewEntry);
                   break;
                 case 4:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.FRIDAY_ID),
-                      Constants.NEW_LESSON_FRIDAY,
+                      LocalizedText.of(context).newLessonFriday,
                       isNewEntry);
                   break;
                 default:
@@ -403,7 +422,6 @@ class _LessonListScreenState extends State<LessonListScreen>
       case Constants.MONDAY_ID:
         _mondayList = await dataBaseHelper.getModelsFromMapList(tab);
         setState(() {
-          _mondayList = _mondayList;
           mondayListLength = _mondayList.length;
         });
         break;
@@ -411,7 +429,6 @@ class _LessonListScreenState extends State<LessonListScreen>
       case Constants.TUESDAY_ID:
         _tuesdayList = await dataBaseHelper.getModelsFromMapList(tab);
         setState(() {
-          _tuesdayList = _tuesdayList;
           tuesdayListLength = _tuesdayList.length;
         });
         break;
@@ -419,7 +436,6 @@ class _LessonListScreenState extends State<LessonListScreen>
       case Constants.WEDNESDAY_ID:
         _wednesdayList = await dataBaseHelper.getModelsFromMapList(tab);
         setState(() {
-          _wednesdayList = _wednesdayList;
           wednesdayListLength = _wednesdayList.length;
         });
         break;
@@ -427,7 +443,6 @@ class _LessonListScreenState extends State<LessonListScreen>
       case Constants.THURSDAY_ID:
         _thursdayList = await dataBaseHelper.getModelsFromMapList(tab);
         setState(() {
-          _thursdayList = _thursdayList;
           thursdayListLength = _thursdayList.length;
         });
         break;
@@ -435,7 +450,6 @@ class _LessonListScreenState extends State<LessonListScreen>
       case Constants.FRIDAY_ID:
         _fridayList = await dataBaseHelper.getModelsFromMapList(tab);
         setState(() {
-          _fridayList = _fridayList;
           fridayListLength = _fridayList.length;
         });
         break;
@@ -443,7 +457,6 @@ class _LessonListScreenState extends State<LessonListScreen>
       case Constants.SATURDAY_ID:
         _saturdayList = await dataBaseHelper.getModelsFromMapList(tab);
         setState(() {
-          _saturdayList = _saturdayList;
           saturdayListLength = _saturdayList.length;
         });
         break;
@@ -451,13 +464,35 @@ class _LessonListScreenState extends State<LessonListScreen>
       case Constants.SUNDAY_ID:
         _sundayList = await dataBaseHelper.getModelsFromMapList(tab);
         setState(() {
-          _sundayList = _sundayList;
           sundayListLength = _sundayList.length;
         });
         break;
 
       default:
-        debugPrint("unknown day in updateListView(String tab)");
+        /* Updating all the listviews. Needed when the user imports a new timetable from file. */
+        _mondayList =
+            await dataBaseHelper.getModelsFromMapList(Constants.MONDAY_ID);
+        _tuesdayList =
+            await dataBaseHelper.getModelsFromMapList(Constants.TUESDAY_ID);
+        _wednesdayList =
+            await dataBaseHelper.getModelsFromMapList(Constants.WEDNESDAY_ID);
+        _thursdayList =
+            await dataBaseHelper.getModelsFromMapList(Constants.THURSDAY_ID);
+        _fridayList =
+            await dataBaseHelper.getModelsFromMapList(Constants.FRIDAY_ID);
+        _saturdayList =
+            await dataBaseHelper.getModelsFromMapList(Constants.SATURDAY_ID);
+        _sundayList =
+            await dataBaseHelper.getModelsFromMapList(Constants.SUNDAY_ID);
+        setState(() {
+          mondayListLength = _mondayList.length;
+          tuesdayListLength = _tuesdayList.length;
+          wednesdayListLength = _wednesdayList.length;
+          thursdayListLength = _thursdayList.length;
+          fridayListLength = _fridayList.length;
+          saturdayListLength = _saturdayList.length;
+          sundayListLength = _sundayList.length;
+        });
     }
   }
 
@@ -526,7 +561,7 @@ class _LessonListScreenState extends State<LessonListScreen>
                     // disable autofocus on first textfield on lesson manager screen
                     isNewEntry = false;
                     navigationToDetailsView(
-                        lesson, Constants.EDIT_LESSON_TITLE, isNewEntry);
+                        lesson, LocalizedText.of(context).editLessonTitle, isNewEntry);
                   },
                   child: ListTile(
                     contentPadding: EdgeInsets.all(15),
@@ -565,13 +600,13 @@ class _LessonListScreenState extends State<LessonListScreen>
   showAlertDialog(BuildContext context, Lesson lesson) {
     // set up the buttons
     Widget cancelButton = FlatButton(
-      child: Text(Constants.CANCEL_TEXT),
+      child: Text(LocalizedText.of(context).cancelText),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = FlatButton(
-      child: Text(Constants.DELETE_TEXT),
+      child: Text(LocalizedText.of(context).deleteText),
       onPressed: () {
         Navigator.of(context).pop();
         deleteItem(lesson);
@@ -580,8 +615,8 @@ class _LessonListScreenState extends State<LessonListScreen>
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(Constants.DELETE_ALERT_TITLE),
-      content: Text(Constants.DELETE_ALERT_CONTENT),
+      title: Text(LocalizedText.of(context).delteAlertTitle),
+      content: Text(LocalizedText.of(context).deleteAlertContent),
       actions: [
         cancelButton,
         continueButton,

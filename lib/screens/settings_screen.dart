@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:timetable_app/utilities/localization.dart';
 import 'package:timetable_app/utilities/settings_change_notifier.dart';
 import 'package:timetable_app/utilities/themes.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Constants.SETTINGS_TITLE),
+        title: Text(LocalizedText.of(context).settingsLabel),
       ),
       body: Container(
         margin: EdgeInsets.all(8),
@@ -23,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
                     SwitchListTile(
                   contentPadding: EdgeInsets.all(15),
                   title: Text(
-                    Constants.DARK_THEME_LABEL,
+                    LocalizedText.of(context).darkThemeLabel,
                     style: TextStyle(
                       color: ThemeProvider.listTileTitleColor,
                     ),
@@ -44,7 +45,7 @@ class SettingsScreen extends StatelessWidget {
                     SwitchListTile(
                   contentPadding: EdgeInsets.all(15),
                   title: Text(
-                    Constants.FULL_WEEK_LABEL,
+                    LocalizedText.of(context).fullWeekLabel,
                     style: TextStyle(
                       color: ThemeProvider.listTileTitleColor,
                     ),

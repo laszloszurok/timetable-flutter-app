@@ -60,6 +60,23 @@ class DataBaseHelper {
     return lessonListModel;
   }
 
+  Future<List<Map<String, dynamic>>> getAllDatainMaps() async {
+    Database database = await this.database;
+    return database.query(Constants.TABLE_NAME);
+  }
+
+  Future<List<Lesson>> getAllModelsFromMapList() async {
+    List<Map<String, dynamic>> mapList = await getAllDatainMaps();
+
+    List<Lesson> lessonListModel = List();
+
+    for (int i = 0; i < mapList.length; i++) {
+      lessonListModel.add(Lesson.fromMap(mapList[i]));
+    }
+
+    return lessonListModel;
+  }
+
   Future<int> updateItem(Lesson lesson) async {
     Database database = await this.database;
     return database.update(Constants.TABLE_NAME, lesson.toMap(),
@@ -70,5 +87,10 @@ class DataBaseHelper {
     Database database = await this.database;
     return database.delete(Constants.TABLE_NAME,
         where: Constants.ID_COL + " = ? ", whereArgs: [lesson.id]);
+  }
+
+  Future<int> truncate() async {
+    Database database = await this.database;
+    return database.delete(Constants.TABLE_NAME);
   }
 }

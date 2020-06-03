@@ -5,6 +5,7 @@ import 'package:timetable_app/models/lesson.dart';
 import 'package:timetable_app/utilities/db_helper.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:timetable_app/utilities/constants.dart' as Constants;
+import 'package:timetable_app/utilities/localization.dart';
 
 class LessonManagerScreen extends StatefulWidget {
   final Lesson lesson;
@@ -64,8 +65,8 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
                 icon: Icon(
                   (Icons.library_books),
                 ),
-                hintText: Constants.NEW_ENTRY_TITLE_HINT,
-                labelText: Constants.NEW_ENTRY_TITLE_HINT,
+                hintText: LocalizedText.of(context).newEntryTitleHint,
+                labelText: LocalizedText.of(context).newEntryTitleHint,
                 border: OutlineInputBorder(),
               ),
             ),
@@ -76,8 +77,8 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
               controller: _locationEditingController,
               decoration: InputDecoration(
                 icon: Icon((Icons.place)),
-                hintText: Constants.NEW_ENTRY_LOCATION_HINT,
-                labelText: Constants.NEW_ENTRY_LOCATION_HINT,
+                hintText: LocalizedText.of(context).newEntryLocationHint,
+                labelText: LocalizedText.of(context).newEntryLocationHint,
                 border: OutlineInputBorder(),
               ),
             ),
@@ -88,8 +89,8 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
               controller: _beginsAtEditingController,
               decoration: InputDecoration(
                 icon: Icon(Icons.access_time),
-                hintText: Constants.NEW_ENTRY_BEGINS_HINT,
-                labelText: Constants.NEW_ENTRY_BEGINS_HINT,
+                hintText: LocalizedText.of(context).newEntryBeginsHint,
+                labelText: LocalizedText.of(context).newEntryBeginsHint,
                 border: OutlineInputBorder(),
               ),
               format: format,
@@ -109,8 +110,8 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
               controller: _endsAtEditingController,
               decoration: InputDecoration(
                 icon: Icon(Icons.access_time),
-                hintText: Constants.NEW_ENTRY_ENDS_HINT,
-                labelText: Constants.NEW_ENTRY_ENDS_HINT,
+                hintText: LocalizedText.of(context).newEntryEndsHint,
+                labelText: LocalizedText.of(context).newEntryEndsHint,
                 border: OutlineInputBorder(),
               ),
               format: format,
@@ -136,7 +137,7 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
                       validate();
                     },
                     child: Text(
-                      Constants.SAVE_BUTTON_TEXT,
+                      LocalizedText.of(context).saveButtonText,
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -153,14 +154,14 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
     if (_titleEditingController.text == "" ||
         _titleEditingController.text == null) {
       Widget okButton = FlatButton(
-        child: Text(Constants.OK_BUTTON_TEXT),
+        child: Text(LocalizedText.of(context).okButtonText),
         onPressed: () {
           Navigator.of(context).pop();
         },
       );
 
       AlertDialog alert = AlertDialog(
-        title: Text(Constants.REQUIRE_TITLE_ALERT_TEXT),
+        title: Text(LocalizedText.of(context).requireTitleAlertText),
         actions: [
           okButton,
         ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timetable_app/utilities/localization.dart';
 import 'package:timetable_app/utilities/settings_change_notifier.dart';
 import 'package:provider/provider.dart';
 import 'screens/lesson_list_screen.dart';
@@ -26,6 +28,17 @@ class MyApp extends StatelessWidget {
     return Consumer<SettingsProvider>(
       builder: (context, SettingsProvider settingsProvider, child) {
         return MaterialApp(
+          onGenerateTitle: (BuildContext context) =>
+              LocalizedText.of(context).mainTitle,
+          localizationsDelegates: [
+            const TextLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en', ''),
+            const Locale('hu', ''),
+          ],
           theme: settingsProvider.getSelectedTheme,
           home: LessonListScreen(),
         );
