@@ -7,8 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timetable_app/models/lesson_list.dart';
 import 'package:timetable_app/utilities/db_helper.dart';
-import 'package:timetable_app/utilities/constants.dart' as Constants;
 import 'package:timetable_app/utilities/localization.dart';
+import 'package:timetable_app/utilities/constants.dart' as Constants;
 
 class FileOperationScreen extends StatelessWidget {
   @override
@@ -22,7 +22,7 @@ class FileOperationScreen extends StatelessWidget {
             onPressed: () async {
               Navigator.pop(context, didImport);
             }),
-        title: Text(LocalizedText.of(context).fileOperationsLabel),
+        title: Text(LocalizedText.of(context, Constants.FILE_OPERATIONS_LABEL)),
       ),
       body: Container(
         margin: EdgeInsets.all(8),
@@ -44,7 +44,7 @@ class FileOperationScreen extends StatelessWidget {
                         final path =
                             externalDirectory.parent.parent.parent.parent.path;
                         final file =
-                            File('$path/${LocalizedText.of(context).exportFileName}');
+                            File('$path/${LocalizedText.of(context, Constants.EXPORT_FILE_NAME)}');
                         List timetable =
                             await dataBaseHelper.getAllModelsFromMapList();
                         String json = jsonEncode(timetable);
@@ -52,15 +52,15 @@ class FileOperationScreen extends StatelessWidget {
 
                         // set up a dialog
                         Widget okButton = FlatButton(
-                          child: Text(LocalizedText.of(context).okButtonText),
+                          child: Text(LocalizedText.of(context, Constants.OK_BUTTON_TEXT)),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         );
                         AlertDialog alert = AlertDialog(
-                          title: Text(LocalizedText.of(context).exportSuccessTitle),
+                          title: Text(LocalizedText.of(context, Constants.EXPORT_SUCCESS_TITLE)),
                           content: Text(
-                            "${LocalizedText.of(context).exportSuccessContent}\n${file.path}",
+                            "${LocalizedText.of(context, Constants.EXPORT_SUCCESS_CONTENT)}\n${file.path}",
                           ),
                           actions: [
                             okButton,
@@ -77,7 +77,7 @@ class FileOperationScreen extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      LocalizedText.of(context).exportButtonText,
+                      LocalizedText.of(context, Constants.EXPORT_BUTTON_TEXT),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -116,13 +116,13 @@ class FileOperationScreen extends StatelessWidget {
 
                           // set up a dialog
                           Widget okButton = FlatButton(
-                            child: Text(LocalizedText.of(context).okButtonText),
+                            child: Text(LocalizedText.of(context, Constants.OK_BUTTON_TEXT)),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                           );
                           AlertDialog alert = AlertDialog(
-                            title: Text(LocalizedText.of(context).importSuccessTitle),
+                            title: Text(LocalizedText.of(context, Constants.IMPORT_SUCCESS_TITLE)),
                             actions: [
                               okButton,
                             ],
@@ -139,7 +139,7 @@ class FileOperationScreen extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      LocalizedText.of(context).importButtonText,
+                      LocalizedText.of(context, Constants.IMPORT_BUTTON_TEXT),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,

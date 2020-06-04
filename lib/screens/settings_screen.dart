@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocalizedText.of(context).settingsLabel),
+        title: Text(LocalizedText.of(context, Constants.SETTINGS_LABEL)),
       ),
       body: Container(
         margin: EdgeInsets.all(8),
@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
                     SwitchListTile(
                   contentPadding: EdgeInsets.all(15),
                   title: Text(
-                    LocalizedText.of(context).darkThemeLabel,
+                    LocalizedText.of(context, Constants.DARK_THEME_LABEL),
                     style: TextStyle(
                       color: ThemeProvider.listTileTitleColor,
                     ),
@@ -45,7 +45,7 @@ class SettingsScreen extends StatelessWidget {
                     SwitchListTile(
                   contentPadding: EdgeInsets.all(15),
                   title: Text(
-                    LocalizedText.of(context).fullWeekLabel,
+                    LocalizedText.of(context, Constants.FULL_WEEK_LABEL),
                     style: TextStyle(
                       color: ThemeProvider.listTileTitleColor,
                     ),

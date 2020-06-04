@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       builder: (context, SettingsProvider settingsProvider, child) {
         return MaterialApp(
           onGenerateTitle: (BuildContext context) =>
-              LocalizedText.of(context).mainTitle,
+              LocalizedText.of(context, Constants.MAIN_TITLE),
           localizationsDelegates: [
             const TextLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,

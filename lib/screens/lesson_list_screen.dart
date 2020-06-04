@@ -211,26 +211,26 @@ class _LessonListScreenState extends State<LessonListScreen>
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(
-        title: Text(LocalizedText.of(context).mainTitle),
+        title: Text(LocalizedText.of(context, Constants.MAIN_TITLE)),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
           tabs: settingsProvider.isFullWeek
               ? <Widget>[
-                  Tab(text: LocalizedText.of(context).mondayTab),
-                  Tab(text: LocalizedText.of(context).tuesdayTab),
-                  Tab(text: LocalizedText.of(context).wednesdayTab),
-                  Tab(text: LocalizedText.of(context).thursdayTab),
-                  Tab(text: LocalizedText.of(context).fridayTab),
-                  Tab(text: LocalizedText.of(context).saturdayTab),
-                  Tab(text: LocalizedText.of(context).sundayTab),
+                  Tab(text: LocalizedText.of(context, Constants.MONDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.TUESDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.WEDNESDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.THURSDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.FRIDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.SATURDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.SUNDAY_TAB)),
                 ]
               : <Widget>[
-                  Tab(text: LocalizedText.of(context).mondayTab),
-                  Tab(text: LocalizedText.of(context).tuesdayTab),
-                  Tab(text: LocalizedText.of(context).wednesdayTab),
-                  Tab(text: LocalizedText.of(context).thursdayTab),
-                  Tab(text: LocalizedText.of(context).fridayTab),
+                  Tab(text: LocalizedText.of(context, Constants.MONDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.TUESDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.WEDNESDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.THURSDAY_TAB)),
+                  Tab(text: LocalizedText.of(context, Constants.FRIDAY_TAB)),
                 ],
         ),
       ),
@@ -260,7 +260,7 @@ class _LessonListScreenState extends State<LessonListScreen>
           children: <Widget>[
             DrawerHeader(
               child: Text(
-                LocalizedText.of(context).mainTitle,
+                LocalizedText.of(context, Constants.MAIN_TITLE),
                 style: TextStyle(
                   fontSize: 24,
                   color: ThemeProvider.drawerTitleColor,
@@ -271,7 +271,7 @@ class _LessonListScreenState extends State<LessonListScreen>
               ),
             ),
             ListTile(
-              title: Text(LocalizedText.of(context).settingsLabel),
+              title: Text(LocalizedText.of(context, Constants.SETTINGS_LABEL)),
               onTap: () {
                 // Navigating to the settings screen
                 // Navigator.pop(context); // close the drawer
@@ -284,7 +284,8 @@ class _LessonListScreenState extends State<LessonListScreen>
               },
             ),
             ListTile(
-              title: Text(LocalizedText.of(context).fileOperationsLabel),
+              title: Text(
+                  LocalizedText.of(context, Constants.FILE_OPERATIONS_LABEL)),
               onTap: () async {
                 // Navigating to the settings screen
                 // Navigator.pop(context); // close the drawer
@@ -301,14 +302,16 @@ class _LessonListScreenState extends State<LessonListScreen>
               },
             ),
             ListTile(
-              title: Text(LocalizedText.of(context).appInfoLabel),
+              title: Text(LocalizedText.of(context, Constants.APP_INFO_LABEL)),
               onTap: () {
                 // Show app infos
                 showAboutDialog(
                   context: context,
-                  applicationName: LocalizedText.of(context).mainTitle,
+                  applicationName:
+                      LocalizedText.of(context, Constants.MAIN_TITLE),
                   applicationVersion: Constants.VERSION_NUMBER,
-                  applicationLegalese: LocalizedText.of(context).appInfoContent,
+                  applicationLegalese:
+                      LocalizedText.of(context, Constants.APP_INFO_CONTENT),
                 );
               },
             ),
@@ -330,43 +333,43 @@ class _LessonListScreenState extends State<LessonListScreen>
                 case 0:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.MONDAY_ID),
-                      LocalizedText.of(context).newLessonMonday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_MONDAY),
                       isNewEntry);
                   break;
                 case 1:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.TUESDAY_ID),
-                      LocalizedText.of(context).newLessonTuesday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_TUESDAY),
                       isNewEntry);
                   break;
                 case 2:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.WEDNESDAY_ID),
-                      LocalizedText.of(context).newLessonWednesday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_WEDNESDAY),
                       isNewEntry);
                   break;
                 case 3:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.THURSDAY_ID),
-                      LocalizedText.of(context).newLessonThursday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_THURSDAY),
                       isNewEntry);
                   break;
                 case 4:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.FRIDAY_ID),
-                      LocalizedText.of(context).newLessonFriday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_FRIDAY),
                       isNewEntry);
                   break;
                 case 5:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.SATURDAY_ID),
-                      LocalizedText.of(context).newLessonSaturday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_SATURDAY),
                       isNewEntry);
                   break;
                 case 6:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.SUNDAY_ID),
-                      LocalizedText.of(context).newLessonSunday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_SUNDAY),
                       isNewEntry);
                   break;
                 default:
@@ -378,31 +381,31 @@ class _LessonListScreenState extends State<LessonListScreen>
                 case 0:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.MONDAY_ID),
-                      LocalizedText.of(context).newLessonMonday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_MONDAY),
                       isNewEntry);
                   break;
                 case 1:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.TUESDAY_ID),
-                      LocalizedText.of(context).newLessonTuesday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_TUESDAY),
                       isNewEntry);
                   break;
                 case 2:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.WEDNESDAY_ID),
-                      LocalizedText.of(context).newLessonWednesday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_WEDNESDAY),
                       isNewEntry);
                   break;
                 case 3:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.THURSDAY_ID),
-                      LocalizedText.of(context).newLessonFriday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_THURSDAY),
                       isNewEntry);
                   break;
                 case 4:
                   navigationToDetailsView(
                       Lesson("", "", "", "", Constants.FRIDAY_ID),
-                      LocalizedText.of(context).newLessonFriday,
+                      LocalizedText.of(context, Constants.NEW_LESSON_FRIDAY),
                       isNewEntry);
                   break;
                 default:
@@ -561,7 +564,9 @@ class _LessonListScreenState extends State<LessonListScreen>
                     // disable autofocus on first textfield on lesson manager screen
                     isNewEntry = false;
                     navigationToDetailsView(
-                        lesson, LocalizedText.of(context).editLessonTitle, isNewEntry);
+                        lesson,
+                        LocalizedText.of(context, Constants.EDIT_LESSON_TITLE),
+                        isNewEntry);
                   },
                   child: ListTile(
                     contentPadding: EdgeInsets.all(15),
@@ -600,13 +605,13 @@ class _LessonListScreenState extends State<LessonListScreen>
   showAlertDialog(BuildContext context, Lesson lesson) {
     // set up the buttons
     Widget cancelButton = FlatButton(
-      child: Text(LocalizedText.of(context).cancelText),
+      child: Text(LocalizedText.of(context, Constants.CANCEL_TEXT)),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = FlatButton(
-      child: Text(LocalizedText.of(context).deleteText),
+      child: Text(LocalizedText.of(context, Constants.DELETE_TEXT)),
       onPressed: () {
         Navigator.of(context).pop();
         deleteItem(lesson);
@@ -615,8 +620,8 @@ class _LessonListScreenState extends State<LessonListScreen>
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(LocalizedText.of(context).delteAlertTitle),
-      content: Text(LocalizedText.of(context).deleteAlertContent),
+      title: Text(LocalizedText.of(context, Constants.DELETE_ALERT_TITLE)),
+      content: Text(LocalizedText.of(context, Constants.DELETE_ALERT_CONTENT)),
       actions: [
         cancelButton,
         continueButton,

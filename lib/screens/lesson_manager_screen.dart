@@ -65,8 +65,10 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
                 icon: Icon(
                   (Icons.library_books),
                 ),
-                hintText: LocalizedText.of(context).newEntryTitleHint,
-                labelText: LocalizedText.of(context).newEntryTitleHint,
+                hintText:
+                    LocalizedText.of(context, Constants.NEW_ENTRY_TITLE_HINT),
+                labelText:
+                    LocalizedText.of(context, Constants.NEW_ENTRY_TITLE_HINT),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -77,8 +79,10 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
               controller: _locationEditingController,
               decoration: InputDecoration(
                 icon: Icon((Icons.place)),
-                hintText: LocalizedText.of(context).newEntryLocationHint,
-                labelText: LocalizedText.of(context).newEntryLocationHint,
+                hintText: LocalizedText.of(
+                    context, Constants.NEW_ENTRY_LOCATION_HINT),
+                labelText: LocalizedText.of(
+                    context, Constants.NEW_ENTRY_LOCATION_HINT),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -89,8 +93,10 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
               controller: _beginsAtEditingController,
               decoration: InputDecoration(
                 icon: Icon(Icons.access_time),
-                hintText: LocalizedText.of(context).newEntryBeginsHint,
-                labelText: LocalizedText.of(context).newEntryBeginsHint,
+                hintText:
+                    LocalizedText.of(context, Constants.NEW_ENTRY_BEGINS_HINT),
+                labelText:
+                    LocalizedText.of(context, Constants.NEW_ENTRY_BEGINS_HINT),
                 border: OutlineInputBorder(),
               ),
               format: format,
@@ -110,8 +116,10 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
               controller: _endsAtEditingController,
               decoration: InputDecoration(
                 icon: Icon(Icons.access_time),
-                hintText: LocalizedText.of(context).newEntryEndsHint,
-                labelText: LocalizedText.of(context).newEntryEndsHint,
+                hintText:
+                    LocalizedText.of(context, Constants.NEW_ENTRY_ENDS_HINT),
+                labelText:
+                    LocalizedText.of(context, Constants.NEW_ENTRY_ENDS_HINT),
                 border: OutlineInputBorder(),
               ),
               format: format,
@@ -137,7 +145,7 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
                       validate();
                     },
                     child: Text(
-                      LocalizedText.of(context).saveButtonText,
+                      LocalizedText.of(context, Constants.SAVE_BUTTON_TEXT),
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -154,14 +162,15 @@ class _LessonManagerScreenState extends State<LessonManagerScreen> {
     if (_titleEditingController.text == "" ||
         _titleEditingController.text == null) {
       Widget okButton = FlatButton(
-        child: Text(LocalizedText.of(context).okButtonText),
+        child: Text(LocalizedText.of(context, Constants.OK_BUTTON_TEXT)),
         onPressed: () {
           Navigator.of(context).pop();
         },
       );
 
       AlertDialog alert = AlertDialog(
-        title: Text(LocalizedText.of(context).requireTitleAlertText),
+        title:
+            Text(LocalizedText.of(context, Constants.REQUIRE_TITLE_ALERT_TEXT)),
         actions: [
           okButton,
         ],
